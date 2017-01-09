@@ -12,6 +12,8 @@ import {
 	Navigator,
 	BackAndroid,
   Text,
+	Button,
+	TouchableOpacity,
   View
 } from 'react-native';
 
@@ -30,10 +32,12 @@ class HomeView extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Text>首页view</Text>
-				<Text style={styles.button} onPress={() => this.onNavPress('message')}>跳转到 [消息]</Text>
-				<Text style={styles.button} onPress={() => this.onNavPress('discover')}>跳转到 [发现]</Text>
-				<Text style={styles.button} onPress={() => this.onNavPress('user')}>跳转到 [我的]</Text>
+				<Text style={styles.title} onPress={() => alert('这是首页的内容！')}>首页view</Text>
+				<View style={styles.flexColumn}>
+					<Text style={styles.button} onPress={() => this.onNavPress('message')}>跳转到 [消息]</Text>
+					<Text style={styles.button} onPress={() => this.onNavPress('discover')}>跳转到 [发现]</Text>
+					<Text style={styles.button} onPress={() => this.onNavPress('user')}>跳转到 [我的]</Text>
+				</View>
 			</View>
 		);
 	}
@@ -56,8 +60,10 @@ class MessageView extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Text>消息view</Text>
-				<Text style={styles.button} onPress ={this.goBack}>后退</Text>
+				<Text style={styles.title}>消息view</Text>
+				<View style={styles.flexColumn}>
+					<Text style={styles.button} onPress ={this.goBack}>后退</Text>
+				</View>
 			</View>
 		);
 	}
@@ -79,8 +85,10 @@ class DiscoverView extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Text>发现view</Text>
-				<Text style={styles.button} onPress ={this.goBack}>后退</Text>
+				<Text style={styles.title}>发现view</Text>
+				<View style={styles.flexColumn}>
+					<Text style={styles.button} onPress ={this.goBack}>后退</Text>
+				</View>
 			</View>
 		);
 	}
@@ -101,8 +109,10 @@ class UserView extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Text>我的view</Text>
-				<Text style={styles.button} onPress ={this.goBack}>后退</Text>
+				<Text style={styles.title}>我的view</Text>
+				<View style={styles.flexColumn}>
+					<Text style={styles.button} onPress ={this.goBack}>后退</Text>
+				</View>
 			</View>
 		);
 	}
@@ -155,7 +165,7 @@ export default class SampleDrawerLayout extends Component {
 	
   render() {
 		var navigationView = (
-			<View style={{flex:1, backgroundColor: '#FFF'}}>
+			<View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center',}}>
 				<Text style={styles.button} onPress={() => this.onNavPress('home')}>[首页]</Text>
 				<Text style={styles.button} onPress={() => this.onNavPress('message')}>[消息]</Text>
 				<Text style={styles.button} onPress={() => this.onNavPress('discover')}>[发现]</Text>
@@ -185,10 +195,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-	button: {
-		borderRadius: 5,
-		marginTop: 20,
+	flexColumn: {
+		flex: 1, 
+		flexDirection: 'column', 
+		justifyContent: 'space-around', 
+		alignItems: 'center',
 	},
+	button: {
+		height: 40,
+		width: 200,
+		//alignSelf: 'stretch',
+		backgroundColor: 'green',
+		justifyContent: 'center',
+		textAlign: 'center',
+		textAlignVertical: 'center',
+		color: 'white',
+	},
+	title: {
+		height: 50,
+		fontSize: 20,
+		alignSelf: 'stretch',
+		textAlign: 'left',
+		color: 'white',
+		backgroundColor: 'blue',
+		textAlignVertical: 'center',
+	}
 });
 
 AppRegistry.registerComponent('SampleDrawerLayout', () => SampleDrawerLayout);
