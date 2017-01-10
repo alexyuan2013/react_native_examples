@@ -12,10 +12,14 @@ import {
 	Navigator,
 	BackAndroid,
   Text,
-	Button,
 	TouchableOpacity,
   View
 } from 'react-native';
+import {
+	Button,
+	SocialIcon,
+	Icon,
+} from 'react-native-elements';
 
 class HomeView extends Component {
 	
@@ -24,10 +28,15 @@ class HomeView extends Component {
 		// 在ES6中，如果在自定义的函数里使用了this关键字，则需要对其进行“绑定”操作，否则this的指向不对
     // 像下面这行代码一样，在constructor中使用bind是其中一种做法（还有一些其他做法，如使用箭头函数等）
 		this.onNavPress = this.onNavPress.bind(this);
+		this.onButtonPress = this.onButtonPress.bind(this);
 	}
 
 	onNavPress(target) {
 		this.props.navigator.push({name: target});
+	}
+
+	onButtonPress() {
+		 this.props.drawer();
 	}
 	render() {
 		return (
@@ -37,6 +46,20 @@ class HomeView extends Component {
 					<Text style={styles.button} onPress={() => this.onNavPress('message')}>跳转到 [消息]</Text>
 					<Text style={styles.button} onPress={() => this.onNavPress('discover')}>跳转到 [发现]</Text>
 					<Text style={styles.button} onPress={() => this.onNavPress('user')}>跳转到 [我的]</Text>
+					<Button 
+						iconRight
+						icon={{name:'cached'}}
+						buttonStyle={{width: 300}}
+						onPress={this.onButtonPress}
+						title='Button WITH ICON'/>
+					<SocialIcon
+						button
+						style={{width:200}}
+						type='instagram'/>
+					<Icon
+						reverse
+						name='glass'
+						type='font-awesome'/>
 				</View>
 			</View>
 		);
@@ -129,6 +152,12 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
 });
 
 export default class SampleDrawerLayout extends Component {
+
+	constructor(props){
+		super(props);
+		this.renderScene = this.renderScene.bind(this);
+		this.openDrawer = this.openDrawer.bind(this);
+	}
 	
 	onNavPress(target) {
     _navigator.push({
@@ -136,6 +165,11 @@ export default class SampleDrawerLayout extends Component {
     });
     //关闭drawer
     this.refs['DRAWER'].closeDrawer();
+	}
+
+	openDrawer() {
+		//打开drawer
+		this.refs['DRAWER'].openDrawer();
 	}
 	
 	configureScene() {
@@ -160,7 +194,8 @@ export default class SampleDrawerLayout extends Component {
 				break;
 		}
 		//注意这里将navigator作为属性props传递给了各个场景组件
-		return <Component navigator = {navigator} />;
+		//同时将打开drawer的操作作为属性props传递给了各个场景组件
+		return <Component navigator = {navigator} drawer={this.openDrawer}/>;
 	}
 	
   render() {
